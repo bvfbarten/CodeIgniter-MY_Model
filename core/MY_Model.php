@@ -665,9 +665,14 @@ class MY_Model extends CI_Model
         }
         elseif(!isset($value) && isset($field_or_array) && isset($operator_or_value) && is_array($operator_or_value) && !is_array($field_or_array))
         {
-            //echo $field_or_array;
-            //exit;
-            $this->_database->{$where_or.$not.'_in'}($this->table.'.'.$field_or_array, $operator_or_value);
+            $function = $where_or.$not.'_in';
+            $field = $operator_or_value[0];
+            $segments = $operator_or_value[1];
+            $_database = $this->_database;
+            $this->_database->$function(
+                $this->table.'.'.$field,
+                $segments
+            );
         }
         elseif(isset($field_or_array) && isset($operator_or_value) && isset($value))
         {
